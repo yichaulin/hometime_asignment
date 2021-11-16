@@ -26,8 +26,8 @@
 #   }
 # }
 
-class Clients::Booking
-  def self.parse_request_body(body)
+class Clients::Booking < Clients::Base
+  def parse_request_body(body)
     rsv = body[:reservation]
     return nil if !rsv
 

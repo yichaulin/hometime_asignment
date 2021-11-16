@@ -20,8 +20,8 @@
 #   "total_price": "4700.00"
 # }
 
-class Clients::Airbnb
-  def self.parse_request_body(body)
+class Clients::Airbnb < Clients::Base
+  def parse_request_body(body)
     Reservation.new().tap do |r|
       r.client = Const::Client::Airbnb
 
