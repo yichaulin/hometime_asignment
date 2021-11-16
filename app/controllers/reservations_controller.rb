@@ -1,7 +1,7 @@
 class ReservationsController < ApplicationController
   def create
     begin
-      rsv, err = ReservationService.new(request.parameters).run()
+      err = ReservationService.new(request.parameters).run()
     rescue => e
       err = e
     end
@@ -16,7 +16,7 @@ class ReservationsController < ApplicationController
       res = {error: err}
     else
       http_status = 200
-      res = {res: rsv}
+      res = {res: "OK"}
     end
 
     render json: res, status: http_status
