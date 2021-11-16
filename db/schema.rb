@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2021_11_16_053103) do
     t.integer "nights", default: 0
     t.integer "guests", default: 0
     t.integer "adults", default: 0
+    t.integer "children", default: 0
     t.integer "infants", default: 0
     t.string "guest_description"
     t.decimal "payout_amount", precision: 10, scale: 2, default: "0.0"
