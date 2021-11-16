@@ -4,17 +4,17 @@ class ReservationService
   end
 
   def run()
-    res, err = validate_client()
-    if err
-      return nil, err
-    end
+    reservation, err = parse_body()
+    return nil, err if err
+
+    reservation.save!
     
-    return res, nil
+    return reservation, nil
   end
 
   private
 
-  def validate_client()
+  def parse_body()
     if @body[:reservation_code]
       reservation = Clients::Airbnb.parse_request_body(@body)
       return reservation, nil

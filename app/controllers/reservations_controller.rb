@@ -1,14 +1,24 @@
 class ReservationsController < ApplicationController
-    def create
-        body = request.parameters
-        service = ReservationService.new(body)
-        res, err = service.run()
-
-        if err
-            render json: {error: err}, status: 400
-        else
-            render json: {res: res}, status: 200
-        end
-
+  def create
+    begin
+      rsv, err = ReservationService.new(request.parameters).run()
+    rescue => e
+      err = e
     end
+
+    logger.error err.to_s if err
+
+    if err.is_a?(ActiveRecord::RecordInvalid)
+      http_status = 400
+      res = {error: err}
+    elsif err
+      http_status = 500
+      res = {error: err}
+    else
+      http_status = 200
+      res = {res: rsv}
+    end
+
+    render json: res, status: http_status
+  end
 end
