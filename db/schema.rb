@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2021_11_16_053103) do
     t.string "guest_email", null: false
     t.string "guest_first_name", null: false
     t.string "guest_last_name", null: false
+    t.string "client", null: false
     t.string "guest_phone_numbers", null: false
     t.string "status", null: false
     t.string "currency", null: false
@@ -33,6 +34,8 @@ ActiveRecord::Schema.define(version: 2021_11_16_053103) do
     t.decimal "total_amount", precision: 10, scale: 2, default: "0.0"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["client"], name: "index_reservations_on_client"
+    t.index ["code", "client"], name: "index_reservations_on_code_and_client", unique: true
     t.index ["code"], name: "index_reservations_on_code"
     t.index ["end_date"], name: "index_reservations_on_end_date"
     t.index ["guest_email"], name: "index_reservations_on_guest_email"

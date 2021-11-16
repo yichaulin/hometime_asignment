@@ -23,6 +23,8 @@
 class Clients::Airbnb
   def self.parse_request_body(body)
     Reservation.new().tap do |r|
+      r.client = Const::Client::Airbnb
+
       r.code = body[:reservation_code]
       r.start_date = DateTime.strptime(body[:start_date], '%Y-%m-%d')
       r.end_date = DateTime.strptime(body[:end_date], '%Y-%m-%d')

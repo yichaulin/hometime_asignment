@@ -32,6 +32,8 @@ class Clients::Booking
     return nil if !rsv
 
     Reservation.new().tap do |r|
+      r.client = Const::Client::Booking
+
       r.code = rsv[:code]
       r.start_date = DateTime.strptime(rsv[:start_date], '%Y-%m-%d')
       r.end_date = DateTime.strptime(rsv[:end_date], '%Y-%m-%d')
