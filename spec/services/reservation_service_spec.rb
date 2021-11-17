@@ -6,9 +6,8 @@ RSpec.describe ReservationService, type: :model do
 
   context 'Create Reservation:' do
     it 'should verify and create reservation with payload#1' do
-      params = JSON.parse(payload1, symbolize_names: true)
-      rsv = ReservationService.new(params)
-      rsv.run()
+      err = ReservationService.new(payload1).run()
+      expect(err).to be_nil
       
       data = Reservation.first
       expect(data.code).to eq('YYY12345678')
@@ -16,9 +15,8 @@ RSpec.describe ReservationService, type: :model do
     end
 
     it 'should verify and create reservation with payload#2' do
-      params = JSON.parse(payload2, symbolize_names: true)
-      rsv = ReservationService.new(params)
-      rsv.run()
+      err = ReservationService.new(payload2).run()
+      expect(err).to be_nil
       
       data = Reservation.first
       expect(data.code).to eq('XXX12345678')
@@ -38,18 +36,20 @@ RSpec.describe ReservationService, type: :model do
       data = create(:reservation, client: req_client, code: req_code, guests: origin_guests)
       expect(data.guests).to eq(origin_guests)
 
-      rsv = ReservationService.new(params)
-      rsv.run()
-      data.reload
+      err = ReservationService.new(payload1).run()
+      expect(err).to be_nil
 
+      data.reload
       expect(data.guests).to eq(req_guests)
     end
   end
 
   context 'Error handling:' do
     it 'should raise error if payload is invalid' do
-      params = JSON.parse(invalid_payload1, symbolize_names: true)
-      expect{ReservationService.new(params)}.to raise_error('Invalid Body Format')
+      err = ReservationService.new(invalid_payload1).run()
+      expect(err).to be_instance_of(Clients::Errors)
+      expect(err.message).to eql("Invalid Body Format")
+      expect(err.http_status).to be(400)
     end
   end
 end
