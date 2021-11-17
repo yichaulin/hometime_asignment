@@ -29,7 +29,7 @@
 class Clients::Booking < Clients::Base
   def parse_request_body(body)
     rsv = body[:reservation]
-    return nil if !rsv
+    return Reservation.new() if !rsv
 
     Reservation.new().tap do |r|
       r.client = Const::Client::Booking
