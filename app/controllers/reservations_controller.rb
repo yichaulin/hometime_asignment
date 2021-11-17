@@ -1,7 +1,6 @@
 class ReservationsController < ApplicationController
   def create
-    body = JSON.parse(request.body.read, symbolize_names: true)
-    err = ReservationService.new(body).run()
+    err = ReservationService.new(request.body.read).run()
 
     if err
       logger.error err

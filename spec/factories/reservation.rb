@@ -18,5 +18,6 @@ FactoryBot.define do
     payout_amount { 4200.00 }
     security_amount { 500 }
     total_amount { 4700.00 }
+    raw_data { "raw_data" }
   end
 end

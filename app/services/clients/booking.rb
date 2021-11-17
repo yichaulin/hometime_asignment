@@ -27,7 +27,7 @@
 # }
 
 class Clients::Booking < Clients::Base
-  def parse_request_body(body)
+  def parse_request_body(body, raw_data)
     rsv = body[:reservation]
     return Reservation.new() if !rsv
 
@@ -56,6 +56,8 @@ class Clients::Booking < Clients::Base
       r.guests = rsv[:number_of_guests]
       r.status = rsv[:status_type]
       r.total_amount = rsv[:total_paid_amount_accurate]
+
+      r.raw_data = raw_data
     end
   end
 end

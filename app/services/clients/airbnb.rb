@@ -21,7 +21,7 @@
 # }
 
 class Clients::Airbnb < Clients::Base
-  def parse_request_body(body)
+  def parse_request_body(body, raw_data)
     Reservation.new().tap do |r|
       r.client = Const::Client::Airbnb
 
@@ -44,6 +44,8 @@ class Clients::Airbnb < Clients::Base
       r.guest_first_name = guest[:first_name]
       r.guest_last_name = guest[:last_name]
       r.guest_phone_numbers = guest[:phone]
+
+      r.raw_data = raw_data
     end
   end
 end

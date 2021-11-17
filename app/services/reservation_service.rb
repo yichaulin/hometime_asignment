@@ -1,6 +1,7 @@
 class ReservationService
-  def initialize(body)
-    @body = body
+  def initialize(req_body)
+    @raw_data = req_body
+    @body = JSON.parse(req_body, symbolize_names: true)
     @client_handler = nil
 
     if @body[:reservation_code]
@@ -16,7 +17,7 @@ class ReservationService
     end
 
     begin
-      reservation = @client_handler.parse_request_body(@body)
+      reservation = @client_handler.parse_request_body(@body, @raw_data)
       persisted_rsv = Reservation.find_by(code: reservation.code, client: reservation.client)
       if persisted_rsv
         @client_handler.update!(persisted_rsv, reservation)

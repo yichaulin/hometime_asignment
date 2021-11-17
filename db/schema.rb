@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2021_11_16_053103) do
     t.string "guest_phone_numbers", null: false
     t.string "status", null: false
     t.string "currency", null: false
+    t.string "raw_data", null: false
     t.datetime "start_date", null: false
     t.datetime "end_date", null: false
     t.integer "nights", default: 0
