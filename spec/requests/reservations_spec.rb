@@ -13,6 +13,18 @@ RSpec.describe "Reservations", type: :request do
       end
     end
 
+    it 'should get 200 status to update existing reservation' do
+      params = JSON.parse(payload1, symbolize_names: true)
+      req_client = "Airbnb"
+      req_code = params[:reservation_code]
+      req_guests = params[:guests]
+      origin_guests = 1
+      data = create(:reservation, client: req_client, code: req_code, guests: origin_guests)
+
+      post '/reservations', params: payload1
+      expect(response.status).to eq(200)
+    end
+
     it 'should get 400 status to invalid payload' do
       [invalid_payload1].each do |payload|
         post callback_url, params: payload
