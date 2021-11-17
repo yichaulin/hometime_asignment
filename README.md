@@ -1,24 +1,35 @@
-# README
+# Reservation Callback API Server
+To accept reservation requests from clients (Airbnb, Booking.com ... ect).
+It would parse the different format of request body from different clients and store to database.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Prerequisite:
+1. Install Ruby (v3.0.2)
+    ```shell
+    brew install ruby
+    ```
+2. Install Rails (v6.1.4.1)
+    ```shell
+    gem install rails
+    ```
+3. Install needed packages
+    ```shell
+    bundle install
+    ```
+4. Migrate db schema
+    ```shell
+    # dev
+    rails db:migrate
 
-Things you may want to cover:
+    # production
+    rails db:migrate RAILS_ENV=production
+    ```
 
-* Ruby version
+## Run the server
+```shell
+# dev (localhost)
+rails server
 
-* System dependencies
+# production (as a Daemon)
+rails server -e production -d -p {port || 3000}
+```
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
