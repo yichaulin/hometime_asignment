@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_16_053103) do
+ActiveRecord::Schema.define(version: 2021_11_18_091310) do
+
+  create_table "guests", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_guests_on_email", unique: true
+  end
 
   create_table "reservations", force: :cascade do |t|
+    t.integer "guest_id", null: false
     t.string "code", null: false
-    t.string "guest_email", null: false
-    t.string "guest_first_name", null: false
-    t.string "guest_last_name", null: false
     t.string "client", null: false
     t.string "guest_phone_numbers", null: false
     t.string "status", null: false
@@ -39,9 +46,7 @@ ActiveRecord::Schema.define(version: 2021_11_16_053103) do
     t.index ["code", "client"], name: "index_reservations_on_code_and_client", unique: true
     t.index ["code"], name: "index_reservations_on_code"
     t.index ["end_date"], name: "index_reservations_on_end_date"
-    t.index ["guest_email"], name: "index_reservations_on_guest_email"
-    t.index ["guest_first_name"], name: "index_reservations_on_guest_first_name"
-    t.index ["guest_last_name"], name: "index_reservations_on_guest_last_name"
+    t.index ["guest_id"], name: "index_reservations_on_guest_id"
     t.index ["start_date"], name: "index_reservations_on_start_date"
   end
 
