@@ -37,3 +37,17 @@ rails server -e production -d -p {port || 3000}
 ```shell
 bundle exec rspec
 ```
+
+## Reservation callback endpoint (create/update)
+```
+POST /reservations
+```
+### Response
+If all are good, return status `200` and plain text `OK`
+
+If something is wrong, return status `400 or 500` and json:
+```json
+{
+    "error": "error_message"
+}
+```
