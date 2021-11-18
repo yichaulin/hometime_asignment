@@ -39,13 +39,20 @@ class Clients::Airbnb < Clients::Base
       r.security_amount = body[:security_price]
       r.total_amount = body[:total_price]
 
-      guest = body[:guest] || {}
-      r.guest_email = guest[:email]
-      r.guest_first_name = guest[:first_name]
-      r.guest_last_name = guest[:last_name]
-      r.guest_phone_numbers = guest[:phone]
-
+      guest_params = body[:guest] || {}
+      r.guest = create_or_update_guest(guest_params)
       r.raw_data = raw_data
+    end
+  end
+
+  def create_or_update_guest(guest_params)
+    email = guest_params[:email]
+    Guest.find_or_initialize_by(email: email).tap do |g|
+      g.first_name = guest_params[:first_name]
+      g.last_name = guest_params[:last_name]
+      g.phone_numbers = guest_params[:phone]
+  
+      g.save!
     end
   end
 end

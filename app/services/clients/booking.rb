@@ -40,16 +40,11 @@ class Clients::Booking < Clients::Base
       r.payout_amount = rsv[:expected_payout_amount]
 
       guest_details = rsv[:guest_details] || {}
-      r.guest_description = guest_details[:localized_description]
+      r.notes = guest_details[:localized_description]
       r.adults = guest_details[:number_of_adults]
       r.children = guest_details[:number_of_children]
       r.infants = guest_details[:number_of_infants]
 
-
-      r.guest_email = rsv[:guest_email]
-      r.guest_first_name = rsv[:guest_first_name]
-      r.guest_last_name = rsv[:guest_last_name]
-      r.guest_phone_numbers = rsv[:guest_phone_numbers].join(',')
       r.security_amount = rsv[:listing_security_price_accurate]
       r.currency = rsv[:host_currency]
       r.nights = rsv[:nights]
@@ -57,7 +52,20 @@ class Clients::Booking < Clients::Base
       r.status = rsv[:status_type]
       r.total_amount = rsv[:total_paid_amount_accurate]
 
+      r.guest = create_or_update_guest(rsv)
       r.raw_data = raw_data
+    end
+  end
+
+  def create_or_update_guest(guest_params)
+    email = guest_params[:guest_email]
+
+    Guest.find_or_initialize_by(email: email).tap do |g|
+      g.first_name = guest_params[:guest_first_name]
+      g.last_name = guest_params[:guest_last_name]
+      g.phone_numbers = guest_params[:guest_phone_numbers].join(',')
+  
+      g.save!
     end
   end
 end

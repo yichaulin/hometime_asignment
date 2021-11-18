@@ -11,7 +11,7 @@ RSpec.describe ReservationService, type: :model do
       
       data = Reservation.first
       expect(data.code).to eq('YYY12345678')
-      expect(data.guest_email).to eq('wayne_woodbridge@bnb.com')
+      expect(data.guest.email).to eq('wayne_woodbridge@bnb.com')
     end
 
     it 'should verify and create reservation with payload#2' do
@@ -20,8 +20,8 @@ RSpec.describe ReservationService, type: :model do
       
       data = Reservation.first
       expect(data.code).to eq('XXX12345678')
-      expect(data.guest_email).to eq('wayne_woodbridge@bnb.com')
-      expect(data.guest_phone_numbers).to eq('639123456789,639123456789')
+      expect(data.guest.email).to eq('wayne_woodbridge@bnb.com')
+      expect(data.guest.phone_numbers).to eq('639123456789,639123456789')
     end
   end
 

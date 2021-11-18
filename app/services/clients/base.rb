@@ -1,5 +1,5 @@
 class Clients::Base
-  UpdatableColumns = [:start_date, :end_date, :payout_amount, :guest_description, :adults, :children, :infants, :guest_email, :guest_first_name, :guest_last_name, :guest_phone_numbers, :security_amount, :currency, :nights, :guests, :status, :total_amount]
+  UpdatableColumns = [:start_date, :end_date, :payout_amount, :adults, :children, :infants, :security_amount, :currency, :nights, :guests, :status, :total_amount]
 
   def save!(rsv)
     rsv.save!
