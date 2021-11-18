@@ -33,3 +33,7 @@ rails server
 rails server -e production -d -p {port || 3000}
 ```
 
+## Run tests
+```shell
+bundle exec rspec
+```
