@@ -26,7 +26,7 @@ RSpec.describe ReservationService, type: :model do
   end
 
   context 'Update Reservation:' do
-    it 'should update fields if client send request with same reservation code' do
+    it 'should update guests number if client send request with same reservation code' do
       params = JSON.parse(payload1, symbolize_names: true)
       req_client = "Airbnb"
       req_code = params[:reservation_code]
@@ -34,13 +34,28 @@ RSpec.describe ReservationService, type: :model do
       origin_guests = 1
 
       data = create(:reservation, client: req_client, code: req_code, guests: origin_guests)
-      expect(data.guests).to eq(origin_guests)
-
       err = ReservationService.new(payload1).run()
       expect(err).to be_nil
 
       data.reload
       expect(data.guests).to eq(req_guests)
+    end
+
+    it 'should update guest phone number if client send request with same reservation code' do
+      params = JSON.parse(payload1, symbolize_names: true)
+      req_client = "Airbnb"
+      req_code = params[:reservation_code]
+      req_phone_numbers = params[:guest][:phone]
+      origin_phone_numbers = "12345678"
+      guest = create(:guest, phone_numbers: origin_phone_numbers)
+
+      data = create(:reservation, client: req_client, code: req_code, guest: guest)
+
+      err = ReservationService.new(payload1).run()
+      expect(err).to be_nil
+
+      data.reload
+      expect(data.guest.phone_numbers).to eq(req_phone_numbers)
     end
   end
 
