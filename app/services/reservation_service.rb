@@ -24,7 +24,7 @@ class ReservationService
       else
         @client_handler.save!(reservation)
       end
-    rescue ActiveRecord::RecordInvalid => e
+    rescue ActiveRecord::RecordInvalid, Date::Error => e
       return Clients::Errors.new(e.to_s, 400)
     rescue => e
       return Clients::Errors.new(e.to_s, 500)

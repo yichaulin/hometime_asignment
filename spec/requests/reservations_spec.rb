@@ -26,9 +26,10 @@ RSpec.describe "Reservations", type: :request do
     end
 
     it 'should get 400 status to invalid payload' do
-      [invalid_payload1].each do |payload|
+      [invalid_payload, invalid_payload_no_email,
+        invalid_payload_no_start_date].each do |payload|
         post callback_url, params: payload
-        expect(response.status).to eq(400), payload
+        expect(response.status).to eq(400), "expect 400, got #{response.status}. Case: #{payload}"
       end
     end
   end

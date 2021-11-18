@@ -9,19 +9,18 @@ RSpec.describe ReservationService, type: :model do
       err = ReservationService.new(payload1).run()
       expect(err).to be_nil
       
-      data = Reservation.first
-      expect(data.code).to eq('YYY12345678')
-      expect(data.guest.email).to eq('wayne_woodbridge@bnb.com')
+      rsv = Reservation.first
+      expect(rsv.code).to eq('YYY12345678')
+      expect(rsv.guest.email).to eq('wayne_woodbridge@bnb.com')
     end
 
     it 'should verify and create reservation with payload#2' do
       err = ReservationService.new(payload2).run()
       expect(err).to be_nil
       
-      data = Reservation.first
-      expect(data.code).to eq('XXX12345678')
-      expect(data.guest.email).to eq('wayne_woodbridge@bnb.com')
-      expect(data.guest.phone_numbers).to eq('639123456789,639123456789')
+      rsv = Reservation.first
+      expect(rsv.code).to eq('XXX12345678')
+      expect(rsv.guest.phone_numbers).to eq('639123456789,639123456789')
     end
   end
 
@@ -60,11 +59,27 @@ RSpec.describe ReservationService, type: :model do
   end
 
   context 'Error handling:' do
-    it 'should raise error if payload is invalid' do
-      err = ReservationService.new(invalid_payload1).run()
+    it 'should get error if payload is invalid' do
+      err = ReservationService.new(invalid_payload).run()
       expect(err).to be_instance_of(Clients::Errors)
       expect(err.message).to eql("Invalid Body Format")
       expect(err.http_status).to be(400)
     end
+
+    it 'should get error if no guest email in reservation req' do
+      err = ReservationService.new(invalid_payload_no_email).run()
+      expect(err).to be_instance_of(Clients::Errors)
+      expect(err.message).to eql("Validation failed: Email can't be blank")
+      expect(err.http_status).to be(400)
+    end
+
+    it 'should get error if no start_date in reservation req' do
+      err = ReservationService.new(invalid_payload_no_start_date).run()
+      expect(err).to be_instance_of(Clients::Errors)
+      expect(err.message).to eql("invalid date")
+      expect(err.http_status).to be(400)
+    end
+
+    
   end
 end
